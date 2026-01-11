@@ -37,18 +37,20 @@ func (s *EventService) Create(ctx context.Context, creatorID uuid.UUID, req *mod
 	}
 
 	event := &models.Event{
-		CreatorID:      creatorID,
-		Title:          req.Title,
-		EventDate:      eventDate,
-		EventTime:      eventTime,
-		LocationID:     req.LocationID,
-		EventTypeID:    req.EventTypeID,
-		Duration:       req.Duration,
-		EntranceTypeID: req.EntranceTypeID,
-		EntranceFee:    req.EntranceFee,
-		ContactEmail:   req.ContactEmail,
-		ContactMobile:  req.ContactMobile,
-		Notes:          req.Notes,
+		CreatorID:            creatorID,
+		Title:                req.Title,
+		EventDate:            eventDate,
+		EventTime:            eventTime,
+		LocationID:           req.LocationID,
+		EventTypeID:          req.EventTypeID,
+		Duration:             req.Duration,
+		EntranceTypeID:       req.EntranceTypeID,
+		EntranceFee:          req.EntranceFee,
+		ParticipantGroupType: req.ParticipantGroupType,
+		LeadBy:               req.LeadBy,
+		ContactEmail:         req.ContactEmail,
+		ContactMobile:        req.ContactMobile,
+		Notes:                req.Notes,
 	}
 
 	if err := s.repos.Event.Create(ctx, event); err != nil {
@@ -126,6 +128,12 @@ func (s *EventService) Update(ctx context.Context, id, creatorID uuid.UUID, req 
 	}
 	if req.Notes != "" {
 		event.Notes = req.Notes
+	}
+	if req.ParticipantGroupType != "" {
+		event.ParticipantGroupType = req.ParticipantGroupType
+	}
+	if req.LeadBy != "" {
+		event.LeadBy = req.LeadBy
 	}
 
 	if err := s.repos.Event.Update(ctx, event); err != nil {

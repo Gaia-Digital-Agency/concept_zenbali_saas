@@ -7,24 +7,26 @@ import (
 )
 
 type Event struct {
-	ID             uuid.UUID `json:"id"`
-	CreatorID      uuid.UUID `json:"creator_id"`
-	Title          string    `json:"title"`
-	EventDate      time.Time `json:"event_date"`
-	EventTime      *string   `json:"event_time,omitempty"`
-	LocationID     int       `json:"location_id"`
-	EventTypeID    int       `json:"event_type_id"`
-	Duration       string    `json:"duration"`
-	EntranceTypeID int       `json:"entrance_type_id"`
-	EntranceFee    float64   `json:"entrance_fee"`
-	ContactEmail   string    `json:"contact_email"`
-	ContactMobile  string    `json:"contact_mobile"`
-	Notes          string    `json:"notes"`
-	ImageURL       string    `json:"image_url"`
-	IsPaid         bool      `json:"is_paid"`
-	IsPublished    bool      `json:"is_published"`
-	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
+	ID                  uuid.UUID `json:"id"`
+	CreatorID           uuid.UUID `json:"creator_id"`
+	Title               string    `json:"title"`
+	EventDate           time.Time `json:"event_date"`
+	EventTime           *string   `json:"event_time,omitempty"`
+	LocationID          int       `json:"location_id"`
+	EventTypeID         int       `json:"event_type_id"`
+	Duration            string    `json:"duration"`
+	EntranceTypeID      int       `json:"entrance_type_id"`
+	EntranceFee         float64   `json:"entrance_fee"`
+	ParticipantGroupType string    `json:"participant_group_type,omitempty"`
+	LeadBy              string    `json:"lead_by,omitempty"`
+	ContactEmail        string    `json:"contact_email"`
+	ContactMobile       string    `json:"contact_mobile"`
+	Notes               string    `json:"notes"`
+	ImageURL            string    `json:"image_url"`
+	IsPaid              bool      `json:"is_paid"`
+	IsPublished         bool      `json:"is_published"`
+	CreatedAt           time.Time `json:"created_at"`
+	UpdatedAt           time.Time `json:"updated_at"`
 
 	// Joined fields
 	CreatorName      string `json:"creator_name,omitempty"`
@@ -35,31 +37,35 @@ type Event struct {
 }
 
 type EventCreateRequest struct {
-	Title          string  `json:"title" validate:"required,min=3,max=255"`
-	EventDate      string  `json:"event_date" validate:"required"`
-	EventTime      string  `json:"event_time"`
-	LocationID     int     `json:"location_id" validate:"required,min=1"`
-	EventTypeID    int     `json:"event_type_id" validate:"required,min=1"`
-	Duration       string  `json:"duration" validate:"max=100"`
-	EntranceTypeID int     `json:"entrance_type_id" validate:"required,min=1"`
-	EntranceFee    float64 `json:"entrance_fee" validate:"min=0"`
-	ContactEmail   string  `json:"contact_email" validate:"required,email"`
-	ContactMobile  string  `json:"contact_mobile" validate:"max=50"`
-	Notes          string  `json:"notes" validate:"max=2000"`
+	Title                string  `json:"title" validate:"required,min=3,max=255"`
+	EventDate            string  `json:"event_date" validate:"required"`
+	EventTime            string  `json:"event_time"`
+	LocationID           int     `json:"location_id" validate:"required,min=1"`
+	EventTypeID          int     `json:"event_type_id" validate:"required,min=1"`
+	Duration             string  `json:"duration" validate:"max=100"`
+	EntranceTypeID       int     `json:"entrance_type_id" validate:"required,min=1"`
+	EntranceFee          float64 `json:"entrance_fee" validate:"min=0"`
+	ParticipantGroupType string  `json:"participant_group_type" validate:"max=50"`
+	LeadBy               string  `json:"lead_by" validate:"max=255"`
+	ContactEmail         string  `json:"contact_email" validate:"required,email"`
+	ContactMobile        string  `json:"contact_mobile" validate:"max=50"`
+	Notes                string  `json:"notes" validate:"max=2000"`
 }
 
 type EventUpdateRequest struct {
-	Title          string  `json:"title" validate:"min=3,max=255"`
-	EventDate      string  `json:"event_date"`
-	EventTime      string  `json:"event_time"`
-	LocationID     int     `json:"location_id" validate:"min=1"`
-	EventTypeID    int     `json:"event_type_id" validate:"min=1"`
-	Duration       string  `json:"duration" validate:"max=100"`
-	EntranceTypeID int     `json:"entrance_type_id" validate:"min=1"`
-	EntranceFee    float64 `json:"entrance_fee" validate:"min=0"`
-	ContactEmail   string  `json:"contact_email" validate:"email"`
-	ContactMobile  string  `json:"contact_mobile" validate:"max=50"`
-	Notes          string  `json:"notes" validate:"max=2000"`
+	Title                string  `json:"title" validate:"min=3,max=255"`
+	EventDate            string  `json:"event_date"`
+	EventTime            string  `json:"event_time"`
+	LocationID           int     `json:"location_id" validate:"min=1"`
+	EventTypeID          int     `json:"event_type_id" validate:"min=1"`
+	Duration             string  `json:"duration" validate:"max=100"`
+	EntranceTypeID       int     `json:"entrance_type_id" validate:"min=1"`
+	EntranceFee          float64 `json:"entrance_fee" validate:"min=0"`
+	ParticipantGroupType string  `json:"participant_group_type" validate:"max=50"`
+	LeadBy               string  `json:"lead_by" validate:"max=255"`
+	ContactEmail         string  `json:"contact_email" validate:"email"`
+	ContactMobile        string  `json:"contact_mobile" validate:"max=50"`
+	Notes                string  `json:"notes" validate:"max=2000"`
 }
 
 type EventListFilter struct {
@@ -85,27 +91,29 @@ type EventListResponse struct {
 }
 
 type EventResponse struct {
-	ID               uuid.UUID `json:"id"`
-	Title            string    `json:"title"`
-	EventDate        string    `json:"event_date"`
-	EventTime        string    `json:"event_time,omitempty"`
-	Location         string    `json:"location"`
-	LocationID       int       `json:"location_id"`
-	EventType        string    `json:"event_type"`
-	EventTypeID      int       `json:"event_type_id"`
-	Duration         string    `json:"duration"`
-	EntranceType     string    `json:"entrance_type"`
-	EntranceTypeID   int       `json:"entrance_type_id"`
-	EntranceFee      float64   `json:"entrance_fee"`
-	ContactEmail     string    `json:"contact_email"`
-	ContactMobile    string    `json:"contact_mobile"`
-	Notes            string    `json:"notes"`
-	ImageURL         string    `json:"image_url"`
-	Organizer        string    `json:"organizer"`
-	OrganizationName string    `json:"organization_name"`
-	IsPaid           bool      `json:"is_paid"`
-	IsPublished      bool      `json:"is_published"`
-	CreatedAt        time.Time `json:"created_at"`
+	ID                   uuid.UUID `json:"id"`
+	Title                string    `json:"title"`
+	EventDate            string    `json:"event_date"`
+	EventTime            string    `json:"event_time,omitempty"`
+	Location             string    `json:"location"`
+	LocationID           int       `json:"location_id"`
+	EventType            string    `json:"event_type"`
+	EventTypeID          int       `json:"event_type_id"`
+	Duration             string    `json:"duration"`
+	EntranceType         string    `json:"entrance_type"`
+	EntranceTypeID       int       `json:"entrance_type_id"`
+	EntranceFee          float64   `json:"entrance_fee"`
+	ParticipantGroupType string    `json:"participant_group_type,omitempty"`
+	LeadBy               string    `json:"lead_by,omitempty"`
+	ContactEmail         string    `json:"contact_email"`
+	ContactMobile        string    `json:"contact_mobile"`
+	Notes                string    `json:"notes"`
+	ImageURL             string    `json:"image_url"`
+	Organizer            string    `json:"organizer"`
+	OrganizationName     string    `json:"organization_name"`
+	IsPaid               bool      `json:"is_paid"`
+	IsPublished          bool      `json:"is_published"`
+	CreatedAt            time.Time `json:"created_at"`
 }
 
 func (e *Event) ToResponse() *EventResponse {
@@ -115,26 +123,28 @@ func (e *Event) ToResponse() *EventResponse {
 	}
 
 	return &EventResponse{
-		ID:               e.ID,
-		Title:            e.Title,
-		EventDate:        e.EventDate.Format("2006-01-02"),
-		EventTime:        eventTime,
-		Location:         e.LocationName,
-		LocationID:       e.LocationID,
-		EventType:        e.EventTypeName,
-		EventTypeID:      e.EventTypeID,
-		Duration:         e.Duration,
-		EntranceType:     e.EntranceTypeName,
-		EntranceTypeID:   e.EntranceTypeID,
-		EntranceFee:      e.EntranceFee,
-		ContactEmail:     e.ContactEmail,
-		ContactMobile:    e.ContactMobile,
-		Notes:            e.Notes,
-		ImageURL:         e.ImageURL,
-		Organizer:        e.CreatorName,
-		OrganizationName: e.OrganizationName,
-		IsPaid:           e.IsPaid,
-		IsPublished:      e.IsPublished,
-		CreatedAt:        e.CreatedAt,
+		ID:                   e.ID,
+		Title:                e.Title,
+		EventDate:            e.EventDate.Format("2006-01-02"),
+		EventTime:            eventTime,
+		Location:             e.LocationName,
+		LocationID:           e.LocationID,
+		EventType:            e.EventTypeName,
+		EventTypeID:          e.EventTypeID,
+		Duration:             e.Duration,
+		EntranceType:         e.EntranceTypeName,
+		EntranceTypeID:       e.EntranceTypeID,
+		EntranceFee:          e.EntranceFee,
+		ParticipantGroupType: e.ParticipantGroupType,
+		LeadBy:               e.LeadBy,
+		ContactEmail:         e.ContactEmail,
+		ContactMobile:        e.ContactMobile,
+		Notes:                e.Notes,
+		ImageURL:             e.ImageURL,
+		Organizer:            e.CreatorName,
+		OrganizationName:     e.OrganizationName,
+		IsPaid:               e.IsPaid,
+		IsPublished:          e.IsPublished,
+		CreatedAt:            e.CreatedAt,
 	}
 }
